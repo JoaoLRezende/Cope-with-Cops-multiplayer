@@ -6,5 +6,6 @@ Not sure what exactly to implement yet. Some ideas:
 - a street race. No cops. (But then you'd need to be able to accelerate and brake and stuff.)
 
 TODO:
+- implement colision detection.
+- implement steering. (decent, smooth steering, preferably.)
 - maybe some of the modules should be classes instead.
-- use decent steering controls.
