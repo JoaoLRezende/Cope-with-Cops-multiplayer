@@ -17,7 +17,7 @@ def totally_receive_cars_from_the_server():
     from common.car import Car
     from common.constants import ROAD_WIDTH
     from client.render import colors
-    for latitude in range(5, 500, 3):
+    for latitude in range(5, 500, 2):
         car = Car(latitude, randrange(ROAD_WIDTH),
                   colors[randrange(1, len(colors))])
         transit.add_car(car)

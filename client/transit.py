@@ -18,7 +18,7 @@ add_car is to be called by the communication module when the server
 spawns a new car.
 """
 def add_car(car):
-    debug_print("Receiving car from server at latitude %d." % car.latitude, 5)
+    debug_print("Receiving car from server at latitude %d." % car.latitude, 2)      # keeping this debug_print because it looks so cool
     global _transit_back, _transit_front
     if not _transit_front:
         _transit_back  = car
@@ -31,10 +31,8 @@ def add_car(car):
 """
 get_visible_cars creates an iterator that feeds the cars that are to be
 drawn on the screen.
-It also eliminates from our transit cars we'be already passed.
 """
 def get_visible_cars(maximum_visible_latitude):
-    debug_print("hi")
     class Iterator():
         def __iter__(self):
             return self
@@ -49,3 +47,13 @@ def get_visible_cars(maximum_visible_latitude):
             self.current_car = current_car.next_car
             return current_car
     return Iterator(_transit_back, maximum_visible_latitude)
+
+
+def check_for_collision(player_car):
+    for other_car in get_visible_cars(player_car.latitude):
+        Ay, Ax = player_car.latitude, player_car.longitude
+        By, Bx =  other_car.latitude,  other_car.longitude
+
+        if (((Ax <= Bx and Ax + CAR_WIDTH > Bx) or (Bx <= Ax and Bx + CAR_WIDTH > Ax)) and
+            ((Ay <= By and Ay + CAR_HEIGHT > By) or (By <= Ay and By + CAR_HEIGHT > Ay))):
+            debug_print("Colision detected between the player's car at (%d, %d) and another car at (%d, %d)." % (Ax, Ay, Bx, By), 1000)

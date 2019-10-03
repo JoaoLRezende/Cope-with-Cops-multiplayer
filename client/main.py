@@ -16,6 +16,8 @@ def main(screen):
     while True:
         other_cars = transit.get_visible_cars(render.get_maximum_visible_latitude(player_car))
         render.draw_cars(player_car, other_cars)
+        transit.check_for_collision(player_car)
+
         player_car.latitude += 1
         napms(30)
 

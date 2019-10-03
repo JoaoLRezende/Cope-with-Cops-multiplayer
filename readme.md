@@ -6,6 +6,6 @@ Not sure what exactly to implement yet. Some ideas:
 - a street race. No cops. (But then you'd need to be able to accelerate and brake and stuff.)
 
 TODO:
-- implement colision detection.
+- some cars spawn with the same color as the background. Either make the background a unique color or prevent colors from being that color.
 - implement steering. (decent, smooth steering, preferably.)
 - maybe some of the modules should be classes instead.

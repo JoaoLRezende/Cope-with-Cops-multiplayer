@@ -84,10 +84,12 @@ def create_road_view(screen):
 
 
 def draw_car(car, maximum_visible_latitude):
-    for latitude in range (car.latitude, car.latitude - CAR_HEIGHT, -1):
-        for longitude in range (car.longitude, car.longitude + CAR_WIDTH):
-            paint_cell(maximum_visible_latitude - latitude, longitude, car.color)
-
+    try:
+        for latitude in range (car.latitude, car.latitude - CAR_HEIGHT, -1):
+            for longitude in range (car.longitude, car.longitude + CAR_WIDTH):
+                paint_cell(maximum_visible_latitude - latitude, longitude, car.color)
+    except:
+        debug_print("There was an error drawing a car.", 1000)      # FIXME. This seems to be caused by attempts to draw cars that intersect with the right edge of the road.
 
 def get_maximum_visible_latitude(player_car):
     return player_car.latitude + (_road_view.getmaxyx()[0]
@@ -113,4 +115,6 @@ def debug_print(message, nap_after_printing = 0):
     _road_view.addstr(last_debug_line, 0, message)
     _road_view.refresh()
     curses.napms(nap_after_printing)
+    if nap_after_printing < 0:
+        _road_view.getch()
     last_debug_line = (last_debug_line + 1) % _road_view.getmaxyx()[0]
