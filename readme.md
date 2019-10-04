@@ -12,3 +12,5 @@ TODO:
 - make everything independent from the tick frequency. (cars' speed shouldn't be influenced by it, for example.)
 - maybe some of the modules should be classes instead.
 - fix the import mess. move imports to the top of source files. initialize modules in an intialization function; not on import.
+- make sure all the cool parts of the original Cope with Cops are here. (Including explosions and stuff.)
+- make sure the thing works on most PCs. (Make sure it works on Windows too. Also make sure smooth steering − through the keyboard module − is always used there, since it doesn't require administrative privileges there.)
