@@ -15,5 +15,5 @@ MAX_FPS = 15
 
 MIN_SCREEN_WIDTH = ROAD_WIDTH + 2
 
-# The minimum amount of time that must pass between ticks, in milliseconds. (#TODO: enforce this.)
-MIN_TICK_INTERVAL = round(1 / MAX_FPS * 1000)
+# The minimum amount of time that must pass between ticks, in seconds. (#TODO: enforce this.)
+MIN_TICK_INTERVAL = 1 / MAX_FPS

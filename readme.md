@@ -9,4 +9,6 @@ TODO:
 - some cars spawn with the same color as the background. Either make the background a unique color or prevent cars from being that color.
 - implement steering.
 - implement reading keyboard input through the keyboard module (https://pypi.org/project/keyboard/) (which should be much smoother) − but make it optional, since it requires root.
+- make everything independent from the tick frequency. (cars' speed shouldn't be influenced by it, for example.)
 - maybe some of the modules should be classes instead.
+- fix the import mess. move imports to the top of source files. initialize modules in an intialization function; not on import.

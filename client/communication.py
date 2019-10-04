@@ -5,7 +5,7 @@ of the main looop) or asynchronously (in a separate thread). Idk.
 
 import client.transit as transit
 
-from client.render import debug_print   # temp
+from client.rendering import debug_print   # temp
 
 """
 One of the things this module should do is call transit's add_car whenever a new
@@ -15,9 +15,9 @@ Below is a test stub that pretends to receive many cars at once.
 def totally_receive_cars_from_the_server():
     from random import randrange
     from common.car import Car
-    from common.constants import ROAD_WIDTH
-    from client.render import colors
+    from common.constants import ROAD_WIDTH, CAR_WIDTH
+    from client.rendering import colors
     for latitude in range(5, 500, 2):
-        car = Car(latitude, randrange(ROAD_WIDTH),
+        car = Car(latitude, randrange(ROAD_WIDTH - CAR_WIDTH),
                   colors[randrange(1, len(colors))])
         transit.add_car(car)

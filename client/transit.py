@@ -1,7 +1,7 @@
 import client.communication
 from common.constants import *
 
-from client.render import debug_print   # temp
+from client.rendering import debug_print   # temp
 
 """
 Our transit is a linked list of cars.
@@ -56,4 +56,4 @@ def check_for_collision(player_car):
 
         if (((Ax <= Bx and Ax + CAR_WIDTH > Bx) or (Bx <= Ax and Bx + CAR_WIDTH > Ax)) and
             ((Ay <= By and Ay + CAR_HEIGHT > By) or (By <= Ay and By + CAR_HEIGHT > Ay))):
-            debug_print("Colision detected between the player's car at (%d, %d) and another car at (%d, %d)." % (Ax, Ay, Bx, By), 1000)
+            debug_print("Colision detected between the player's car at (%d, %d) and another car at (%d, %d)." % (Ax, Ay, Bx, By), 200)
