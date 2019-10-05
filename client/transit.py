@@ -1,4 +1,3 @@
-from client.communication import debug_msg
 from common.constants import *
 
 """
@@ -53,4 +52,4 @@ def check_for_collision(player_car):
 
         if (((Ax <= Bx and Ax + CAR_WIDTH > Bx) or (Bx <= Ax and Bx + CAR_WIDTH > Ax)) and
             ((Ay <= By and Ay + CAR_HEIGHT > By) or (By <= Ay and By + CAR_HEIGHT > Ay))):
-            debug_msg("i crashed :(")
+            pass # debug_msg("i crashed :(")

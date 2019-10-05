@@ -14,6 +14,7 @@ def main(screen):
     player_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
                      ROAD_WIDTH // 2, 6)
     input_and_movement.init(player_car, screen)
+    communication.totally_receive_cars_from_the_server()
     
     while True:
         input_and_movement.read_input_and_update_player(player_car)

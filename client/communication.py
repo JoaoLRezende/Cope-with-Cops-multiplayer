@@ -3,6 +3,8 @@ This module could act synchronously (being called in every iteration
 of the main looop) or asynchronously (in a separate thread). Idk.
 """
 
+import client.transit as transit
+
 """
 One of the things this module should do is call transit's add_car whenever a new
 car arrives from the server.
