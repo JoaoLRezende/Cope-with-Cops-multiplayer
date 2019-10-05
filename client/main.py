@@ -11,7 +11,6 @@ def main(screen):
 
     start_screen.request_resize(screen, MIN_SCREEN_HEIGHT, MIN_SCREEN_WIDTH)
     road_view = rendering.create_road_view(screen)
-    communication.totally_receive_cars_from_the_server()
     player_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
                      ROAD_WIDTH // 2, 6)
     input_and_movement.init(player_car, screen)

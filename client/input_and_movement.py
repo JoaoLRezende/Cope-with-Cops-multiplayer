@@ -4,7 +4,7 @@ import curses
 
 from common.constants import *
 
-from client.rendering import debug_print
+from client.communication import debug_msg
 
 """
 We load and use the keyboard module only if either we're root
@@ -66,7 +66,7 @@ def read_input_and_update_player(player_car):
     player_car.latitude += player_car.speed * time_since_last_tick
 
     if keyboard:
-        if keyboard.is_pressed("left"):  player_car.longitude += -1     # TODO: time_since_last_tick should obviously be involved here. acceleration too?
+        if keyboard.is_pressed("left"):  player_car.longitude += -1     # TODO: time_since_last_tick should obviously be involved here. acceleration too? idk.
         if keyboard.is_pressed("right"): player_car.longitude += +1
 
         if keyboard.is_pressed("up"):   player_car.speed +=   1
@@ -87,4 +87,4 @@ def read_input_and_update_player(player_car):
         elif input == curses.KEY_RIGHT:
             player_car.longitude +=  1
     
-    debug_print("current speed: " + str(player_car.speed), 200)      # TODO: Y DIS NO WORK
+    debug_msg("speed: " + str(player_car.speed))

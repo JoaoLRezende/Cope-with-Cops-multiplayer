@@ -6,8 +6,9 @@ Not sure what exactly to implement yet. Some ideas:
 - a street race. No cops. (But then you'd need to be able to accelerate and brake and stuff.)
 
 TODO:
+- implement a very barebones server that allows receiving debug messages from the client.
+- implement proper accelerating and breaking.
 - some cars spawn with the same color as the background. Either make the background a unique color or prevent cars from being that color.
-- implement steering.
 - implement reading keyboard input through the keyboard module (https://pypi.org/project/keyboard/) (which should be much smoother) − but make it optional, since it requires root.
 - make everything independent from the tick frequency. (cars' speed shouldn't be influenced by it, for example.)
 - maybe some of the modules should be classes instead.

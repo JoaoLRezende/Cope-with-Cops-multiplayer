@@ -1,7 +1,5 @@
-import client.communication
+from client.communication import debug_msg
 from common.constants import *
-
-from client.rendering import debug_print   # temp
 
 """
 Our transit is a linked list of cars.
@@ -18,7 +16,6 @@ add_car is to be called by the communication module when the server
 spawns a new car.
 """
 def add_car(car):
-    debug_print("Receiving car from server at latitude %d." % car.latitude, 2)      # keeping this debug_print because it looks so cool
     global _transit_back, _transit_front
     if not _transit_front:
         _transit_back  = car
@@ -56,4 +53,4 @@ def check_for_collision(player_car):
 
         if (((Ax <= Bx and Ax + CAR_WIDTH > Bx) or (Bx <= Ax and Bx + CAR_WIDTH > Ax)) and
             ((Ay <= By and Ay + CAR_HEIGHT > By) or (By <= Ay and By + CAR_HEIGHT > Ay))):
-            debug_print("Colision detected between the player's car at (%d, %d) and another car at (%d, %d)." % (Ax, Ay, Bx, By), 400)
+            debug_msg("i crashed :(")

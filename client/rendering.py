@@ -2,7 +2,7 @@
 
 import curses
 import random
-from sys import stderr
+from sys import stderr, exit
 
 from common.constants import *
 from common.car import Car # temp (we shouldn't need to create instances of Car here)
@@ -73,7 +73,7 @@ Each cell of the edge is painted by writing a space character in it with
 the attribute attr.
 """
 def create_road_view(screen):
-    left_edge_column  = (screen.getmaxyx()[1] - ROAD_WIDTH - 2) // 2
+    left_edge_column  = (screen.getmaxyx()[1] - MIN_SCREEN_WIDTH) // 2
     right_edge_column = left_edge_column + 1 + ROAD_WIDTH
     for j in [left_edge_column, right_edge_column]:
         for i in range(screen.getmaxyx()[0]):
@@ -104,16 +104,3 @@ def draw_cars(player_car, visible_transit_cars):
     for car in visible_transit_cars:
         draw_car(car, maximum_visible_latitude)
     _road_view.refresh()
-
-
-# temp
-last_debug_line = 0
-def debug_print(message, nap_after_printing = 0, stderr_too = False):
-    global last_debug_line
-    _road_view.addstr(last_debug_line, 0, message)
-    _road_view.refresh()
-    if stderr_too: stderr.write(message)
-    curses.napms(nap_after_printing)
-    if nap_after_printing < 0:
-        _road_view.getch()
-    last_debug_line = (last_debug_line + 1) % _road_view.getmaxyx()[0]
