@@ -1,5 +1,10 @@
 from sys import exit
+from time import time
 import curses
+
+from common.constants import *
+
+from client.rendering import debug_print
 
 """
 We load and use the keyboard module only if either we're root
@@ -15,7 +20,10 @@ In that case, we keep a reference to the game's main window object in screen.
 """
 screen = None
 
-def should_use_keyboard():
+time_of_last_tick = 0
+
+
+def _should_use_keyboard():
     from platform import system
 
     if system() == "Windows":
@@ -31,8 +39,10 @@ def should_use_keyboard():
         return False
 
 
-def init(screen_window):
-    if should_use_keyboard():
+def init(player_car, screen_window):
+    player_car.speed = INITIAL_SPEED
+
+    if _should_use_keyboard():
         from importlib import import_module
         global keyboard
         try:
@@ -47,9 +57,20 @@ def init(screen_window):
 
 
 def read_input_and_update_player(player_car):
+    global time_of_last_tick
+
+    current_time = time()
+    time_since_last_tick = current_time - time_of_last_tick
+    time_of_last_tick = current_time
+
+    player_car.latitude += player_car.speed * time_since_last_tick
+
     if keyboard:
-        if keyboard.is_pressed("left"):  player_car.longitude += -1
+        if keyboard.is_pressed("left"):  player_car.longitude += -1     # TODO: time_since_last_tick should obviously be involved here. acceleration too?
         if keyboard.is_pressed("right"): player_car.longitude += +1
+
+        if keyboard.is_pressed("up"):   player_car.speed +=   1
+        if keyboard.is_pressed("down"): player_car.speed +=  -1
     
     else:
         input = screen.getch()
@@ -65,3 +86,5 @@ def read_input_and_update_player(player_car):
             player_car.longitude += -1
         elif input == curses.KEY_RIGHT:
             player_car.longitude +=  1
+    
+    debug_print("current speed: " + str(player_car.speed), 200)      # TODO: Y DIS NO WORK

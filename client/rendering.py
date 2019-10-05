@@ -2,6 +2,7 @@
 
 import curses
 import random
+from sys import stderr
 
 from common.constants import *
 from common.car import Car # temp (we shouldn't need to create instances of Car here)
@@ -84,8 +85,8 @@ def create_road_view(screen):
 
 
 def draw_car(car, maximum_visible_latitude):
-    for latitude in range (car.latitude, car.latitude - CAR_HEIGHT, -1):
-        for longitude in range (car.longitude, car.longitude + CAR_WIDTH):
+    for latitude in range (car.latitude_int(), car.latitude_int() - CAR_HEIGHT, -1):
+        for longitude in range (car.longitude_int(), car.longitude_int() + CAR_WIDTH):
             paint_cell(maximum_visible_latitude - latitude, longitude, car.color)
 
 def get_maximum_visible_latitude(player_car):
@@ -96,9 +97,9 @@ def get_maximum_visible_latitude(player_car):
 
 def draw_cars(player_car, visible_transit_cars):
     _road_view.erase()
-    maximum_visible_latitude = player_car.latitude + (_road_view.getmaxyx()[0]
-                                                      - PLAYER_DISTANCE_FROM_BOTTOM
-                                                      - CAR_HEIGHT)
+    maximum_visible_latitude = player_car.latitude_int() + (_road_view.getmaxyx()[0]
+                                                            - PLAYER_DISTANCE_FROM_BOTTOM
+                                                            - CAR_HEIGHT)
     draw_car(player_car, maximum_visible_latitude)
     for car in visible_transit_cars:
         draw_car(car, maximum_visible_latitude)
@@ -107,10 +108,11 @@ def draw_cars(player_car, visible_transit_cars):
 
 # temp
 last_debug_line = 0
-def debug_print(message, nap_after_printing = 0):
+def debug_print(message, nap_after_printing = 0, stderr_too = False):
     global last_debug_line
     _road_view.addstr(last_debug_line, 0, message)
     _road_view.refresh()
+    if stderr_too: stderr.write(message)
     curses.napms(nap_after_printing)
     if nap_after_printing < 0:
         _road_view.getch()

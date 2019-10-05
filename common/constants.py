@@ -10,6 +10,8 @@ PLAYER_DISTANCE_FROM_BOTTOM = 10
 
 MAX_FPS = 15
 
+INITIAL_SPEED = 0     # in cells per second
+
 
 ### derived constants ###
 
