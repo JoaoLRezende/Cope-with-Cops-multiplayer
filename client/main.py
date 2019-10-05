@@ -1,8 +1,6 @@
-from curses import napms        # temp
-
 from common.constants import *
 import client.start_screen as start_screen
-import client.timing as timing
+import client.tick_rate_control as tick_rate_control
 from common.car import Car
 
 def main(screen):
@@ -24,6 +22,4 @@ def main(screen):
         transit.check_for_collision(player_car)
 
         player_car.latitude += 1
-        timing.sleep_until_next_tick()
-
-    napms(5000)
+        tick_rate_control.sleep_until_next_tick()
