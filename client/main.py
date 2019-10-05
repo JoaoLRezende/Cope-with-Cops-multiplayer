@@ -18,8 +18,8 @@ def main(screen):
     
     while True:
         input_and_movement.read_input_and_update_player(player_car)
-        other_cars = transit.get_visible_cars(rendering.get_maximum_visible_latitude(player_car))
-        rendering.draw_cars(player_car, other_cars)
+        visible_transit_cars = transit.get_visible_cars(rendering.get_maximum_visible_latitude(player_car))
+        rendering.draw_cars(player_car, visible_transit_cars)
         transit.check_for_collision(player_car)
 
         player_car.latitude += 1

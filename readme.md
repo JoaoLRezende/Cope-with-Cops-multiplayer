@@ -6,12 +6,11 @@ Not sure what exactly to implement yet. Some ideas:
 - a street race. No cops. (But then you'd need to be able to accelerate and brake and stuff.)
 
 TODO:
+- implement cop cars.
 - implement a very barebones server that allows receiving debug messages from the client.
 - implement proper accelerating and breaking.
 - some cars spawn with the same color as the background. Either make the background a unique color or prevent cars from being that color.
-- implement reading keyboard input through the keyboard module (https://pypi.org/project/keyboard/) (which should be much smoother) − but make it optional, since it requires root.
 - make everything independent from the tick frequency. (cars' speed shouldn't be influenced by it, for example.)
-- maybe some of the modules should be classes instead.
 - fix the import mess. move imports to the top of source files. initialize all modules in an intialization function; not on import. (this should probably include not using curses' wrapper function anymore. Use exception handling to restore the terminal to a sane state when an error occurs instead.)
 - after making the changes above, make sure that the error message that can result from a failure at loading the keyboard module (and other error messages generated through sys.exit) is still visible. (if we have our own exception handler around main now, does it need to print the string contents of the exceptions it catches?)
 - in this readme file, describe everything the user should know about running the game as the root user and how that affects controls if you're on Linux. (see comments in the input module and in the documentation of the keyboard module itself.)
