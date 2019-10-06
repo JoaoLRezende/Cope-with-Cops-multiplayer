@@ -1,6 +1,6 @@
-from common.constants import *
-from curses import napms
 from time import time, sleep
+
+from common.constants import *
 
 time_of_last_tick_start = 0
 

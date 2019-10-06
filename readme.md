@@ -6,7 +6,7 @@ Not sure what exactly to implement yet. Some ideas:
 - a street race. No cops. (But then you'd need to be able to accelerate and brake and stuff.)
 
 TODO:
-- implement cop cars.
+- in the rendering module, the code that deals with mapping latitudes do screen rows is confusing. Encapsulate the code that does this in a properly commented function.
 - implement a very barebones server that allows receiving debug messages from the client.
 - implement proper accelerating and breaking.
 - some cars spawn with the same color as the background. Either make the background a unique color or prevent cars from being that color.
