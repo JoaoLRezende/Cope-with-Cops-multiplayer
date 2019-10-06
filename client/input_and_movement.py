@@ -51,6 +51,7 @@ def init(player_car, screen_window):
             exit("Please install the keyboard module as root:\n"
                  "\tsudo python3 -m pip install keyboard")
     else:
+        exit("run with sudo pls")     # TODO: make curses support decent, then remove this line
         global screen
         screen = screen_window
         screen.nodelay(True)
@@ -75,8 +76,7 @@ def read_input_and_update_player(player_car):
     else:
         input = screen.getch()
 
-        """
-        Flush the input buffer because, in the next call to this function,
+        """Flush the input buffer because, in the next call to this function,
         we'll want only input that has been entered since now. We don't
         want to accumulate input.
         """

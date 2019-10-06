@@ -8,7 +8,7 @@ CAR_WIDTH  = 2
 
 PLAYER_DISTANCE_FROM_BOTTOM = 10
 
-MAX_FPS = 15
+MAX_FPS = 30
 
 INITIAL_SPEED = 0     # in cells per second
 
