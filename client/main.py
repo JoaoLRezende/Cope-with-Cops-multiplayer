@@ -14,10 +14,11 @@ def main(screen):
     player_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
                      ROAD_WIDTH // 2, 7, is_cop_car = True)
     input_and_movement.init(player_car, screen)
-    communication.totally_receive_cars_from_the_server()
     
     while True:
         input_and_movement.read_input_and_update_player(player_car)
+        new_events = communication.get_new_events()
+        transit.update_transit(new_events)
         visible_transit_cars = transit.get_visible_cars(rendering.get_maximum_visible_latitude(player_car))
         rendering.draw_scene(player_car, visible_transit_cars)
         transit.check_for_collision(player_car)

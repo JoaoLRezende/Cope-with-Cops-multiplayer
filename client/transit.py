@@ -1,5 +1,7 @@
 from common.constants import *
 
+from sys import exit   # temp
+
 """
 Our transit is a linked list of cars.
 _transit_back maintains a reference to the car that has the lowest latitude.
@@ -14,14 +16,16 @@ _transit_front = None
 add_car is to be called by the communication module when the server
 spawns a new car.
 """
-def add_car(car):
+def update_transit(new_events):
     global _transit_back, _transit_front
+
     if not _transit_front:
-        _transit_back  = car
-        _transit_front = car
+        _transit_back  = new_events.new_transit[0]
+        _transit_front = new_events.new_transit[1]
         return
-    _transit_front.next_car = car
-    _transit_front = car
+
+    _transit_front.next_car = new_events.new_transit[0]
+    _transit_front          = new_events.new_transit[1]
 
 
 """
