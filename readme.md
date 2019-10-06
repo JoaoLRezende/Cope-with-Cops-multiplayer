@@ -6,9 +6,8 @@ Not sure what exactly to implement yet. Some ideas:
 - a street race. No cops. (But then you'd need to be able to accelerate and brake and stuff.)
 
 TODO:
-- find out why the road's edges aren't being drawn anymore. (This was caused by commit 711572a... "Clear the import mess".)
-- prevent the rendering functions from trying to draw (i.e. passing to draw_car) cars whose latitude is is lower than the minimum visible latitude, for efficiency..
 - implement a very barebones server that allows receiving debug messages from the client.
+- prevent the rendering functions from trying to draw (i.e. passing to draw_car) cars whose latitude is is lower than the minimum visible latitude, for efficiency..
 - implement proper accelerating and breaking.
 - some cars spawn with the same color as the background. Either make the background a unique color or prevent cars from being that color.
 - make everything independent from the tick frequency. (cars' speed shouldn't be influenced by it, for example.)

@@ -1,11 +1,11 @@
 """ Stuff related to how stuff is shown on the screen in general. """
 
 import curses
-import random
 from sys import exit
 from time import time
 
 from common.constants import *
+
 
 
 """Constant attributes initialized by the init function.
@@ -14,6 +14,7 @@ See that function for details.
 colors = None
 _screen = None
 _road = None
+
 
 
 def _paint_cell(row, column, color_index, window = None,
@@ -25,8 +26,10 @@ def _paint_cell(row, column, color_index, window = None,
     """
     if not character:
         character = curses.ACS_BOARD
+    if not window:
+        window = _road
+
     attributes |= curses.color_pair(color_index)
-    if not window: window = _road
     if (row < 0 or row >= window.getmaxyx()[0]
             or column < 0 or column >= window.getmaxyx()[1]):
         return
@@ -43,7 +46,9 @@ def _create_road_view():
     right_edge_column = left_edge_column + 1 + ROAD_WIDTH
     for j in [left_edge_column, right_edge_column]:
         for i in range(_screen.getmaxyx()[0]):
-            _paint_cell(i, j, colors.index(curses.COLOR_BLACK), _road)
+            _paint_cell(i, j, colors.index(curses.COLOR_BLACK), _screen)
+
+    _screen.refresh()
 
     return curses.newwin(_screen.getmaxyx()[0], ROAD_WIDTH,
                          0, left_edge_column + 1)
