@@ -8,7 +8,13 @@ from time import time
 from common.constants import *
 
 
-def paint_cell(row, column, color_index, window = None,
+colors = None
+
+_screen = None
+_road = None
+
+
+def _paint_cell(row, column, color_index, window = None,
                character = None, attributes = 0):
     """Write a given character into a given cell with a given color.
 
@@ -35,7 +41,7 @@ def _create_road_view():
     right_edge_column = left_edge_column + 1 + ROAD_WIDTH
     for j in [left_edge_column, right_edge_column]:
         for i in range(_screen.getmaxyx()[0]):
-            paint_cell(i, j, colors.index(curses.COLOR_BLACK), _screen)
+            _paint_cell(i, j, colors.index(curses.COLOR_BLACK), _screen)
 
     return curses.newwin(_screen.getmaxyx()[0], ROAD_WIDTH,
                          0, left_edge_column + 1)
@@ -83,7 +89,8 @@ def init(screen):
     
     return _screen
 
-def update_cop_siren_lights(cop, max_visible_latitude):
+
+def _update_cop_siren_lights(cop, max_visible_latitude):
     if time() - cop.time_of_last_siren_flip > COP_SIREN_PERIOD:
 
         if cop.current_siren_colors[0] == colors.index(curses.COLOR_RED):
@@ -96,24 +103,24 @@ def update_cop_siren_lights(cop, max_visible_latitude):
 
         cop.time_of_last_siren_flip = time()
 
-    paint_cell(max_visible_latitude - (cop.latitude_int() - CAR_HEIGHT//2),
+    _paint_cell(max_visible_latitude - (cop.latitude_int() - CAR_HEIGHT//2),
                 cop.longitude_int(),
                 cop.current_siren_colors[0])
 
-    paint_cell(max_visible_latitude - (cop.latitude_int() - CAR_HEIGHT//2),
+    _paint_cell(max_visible_latitude - (cop.latitude_int() - CAR_HEIGHT//2),
                 cop.longitude_int() + CAR_WIDTH - 1,
                 cop.current_siren_colors[1])
 
 
-def draw_car(car, max_visible_latitude):
+def _draw_car(car, max_visible_latitude):
     for latitude in range (car.latitude_int(),
                            car.latitude_int() - CAR_HEIGHT, -1):
         for longitude in range (car.longitude_int(),
                                 car.longitude_int() + CAR_WIDTH):
-            paint_cell(max_visible_latitude - latitude, longitude, car.color)
+            _paint_cell(max_visible_latitude - latitude, longitude, car.color)
 
     if car.is_cop_car:
-        update_cop_siren_lights(car, max_visible_latitude)
+        _update_cop_siren_lights(car, max_visible_latitude)
         
 
 def get_maximum_visible_latitude(player_car):
@@ -128,7 +135,7 @@ def draw_scene(player_car, visible_transit_cars):
                                 + _road.getmaxyx()[0]
                                 - PLAYER_DISTANCE_FROM_BOTTOM
                                 - CAR_HEIGHT)
-    draw_car(player_car, maximum_visible_latitude)
+    _draw_car(player_car, maximum_visible_latitude)
     for car in visible_transit_cars:
-        draw_car(car, maximum_visible_latitude)
+        _draw_car(car, maximum_visible_latitude)
     _road.refresh()
