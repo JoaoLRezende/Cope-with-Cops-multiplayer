@@ -25,13 +25,14 @@ def update_transit(new_events):
     """
     global _transit_back, _transit_front
 
-    if not _transit_front:
-        _transit_back  = new_events.new_transit[0]
-        _transit_front = new_events.new_transit[1]
-        return
+    if new_events.new_transit:
+        if not _transit_front:
+            _transit_back  = new_events.new_transit[0]
+            _transit_front = new_events.new_transit[1]
+            return
 
-    _transit_front.next_car = new_events.new_transit[0]
-    _transit_front          = new_events.new_transit[1]
+        _transit_front.next_car = new_events.new_transit[0]
+        _transit_front          = new_events.new_transit[1]
 
 
 """

@@ -12,6 +12,15 @@ from common.car       import Car
 from sys import exit    # temp
 
 
+file = None
+
+
+
+def init():
+    global file
+    file = open("test_messages.txt")
+
+
 
 class Event:
     pass
@@ -25,17 +34,18 @@ def _receive_events():
     
     Returns when there aren't any more full event strings to parse.
     """
-    event = NewTransitCarEvent()
-    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 5, ROAD_WIDTH // 2 + 5, 3, is_cop_car = True)
-    yield event
-    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 10, ROAD_WIDTH // 2 + 5, 4, is_cop_car = True)
-    yield event
-    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 15, ROAD_WIDTH // 2 + 5, 8, is_cop_car = True)
-    yield event
-    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 20, ROAD_WIDTH // 2 + 5, 2, is_cop_car = True)
-    yield event
-
-
+    for line in file:
+        if line[0] == "t":
+            new_transit_car_event = NewTransitCarEvent()
+            car_parameters = line[1:].split(",")
+            new_transit_car_event.new_transit_car = Car(
+                latitude   =      int(car_parameters[0]),
+                longitude  =      int(car_parameters[1]),
+                color      =      int(car_parameters[2]),
+                is_cop_car = bool(int(car_parameters[3]))
+            )
+            yield new_transit_car_event
+            
 
 def get_new_events():
     class EventsContainer():
@@ -45,6 +55,7 @@ def get_new_events():
     new_events = EventsContainer()
 
     for event in _receive_events():
+
         """If event is a new transit car, add it to new_events's new_transit
         linked list of cars, which is to be delivered
         as a 2-element list [first_car, last car].
@@ -56,7 +67,6 @@ def get_new_events():
             else:
                 new_events.new_transit[1].next_car = event.new_transit_car
                 new_events.new_transit[1]          = event.new_transit_car
-
     return new_events
 
 

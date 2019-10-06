@@ -43,7 +43,7 @@ def _create_road_view():
     right_edge_column = left_edge_column + 1 + ROAD_WIDTH
     for j in [left_edge_column, right_edge_column]:
         for i in range(_screen.getmaxyx()[0]):
-            _paint_cell(i, j, colors.index(curses.COLOR_BLACK), _screen)
+            _paint_cell(i, j, colors.index(curses.COLOR_BLACK), _road)
 
     return curses.newwin(_screen.getmaxyx()[0], ROAD_WIDTH,
                          0, left_edge_column + 1)
