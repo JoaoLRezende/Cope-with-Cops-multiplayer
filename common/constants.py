@@ -12,6 +12,8 @@ MAX_FPS = 15
 
 INITIAL_SPEED = 0     # in cells per second
 
+COP_SIREN_PERIOD = .05      # in seconds
+
 
 ### derived constants ###
 
