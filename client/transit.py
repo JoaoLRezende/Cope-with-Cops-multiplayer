@@ -12,9 +12,7 @@ _transit_back  = None
 _transit_front = None
 
 
-"""
-add_car is to be called by the communication module when the server
-spawns a new car.
+"""TODO: document this; write abour ordering, efficiency and stuff
 """
 def update_transit(new_events):
     global _transit_back, _transit_front

@@ -9,6 +9,7 @@ attribute, for consumtion by the other modules.
 
 from common.constants import *
 from common.car       import Car
+from sys import exit    # temp
 
 
 
@@ -25,7 +26,13 @@ def _receive_events():
     Returns when there aren't any more full event strings to parse.
     """
     event = NewTransitCarEvent()
-    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 5, ROAD_WIDTH // 2 + 5, 7, is_cop_car = True)
+    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 5, ROAD_WIDTH // 2 + 5, 3, is_cop_car = True)
+    yield event
+    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 10, ROAD_WIDTH // 2 + 5, 4, is_cop_car = True)
+    yield event
+    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 15, ROAD_WIDTH // 2 + 5, 8, is_cop_car = True)
+    yield event
+    event.new_transit_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + 20, ROAD_WIDTH // 2 + 5, 2, is_cop_car = True)
     yield event
 
 
@@ -40,12 +47,12 @@ def get_new_events():
     for event in _receive_events():
         """If event is a new transit car, add it to new_events's new_transit
         linked list of cars, which is to be delivered
-        as a 2-tuple (first_car, last car).
+        as a 2-element list [first_car, last car].
         """
         if isinstance(event, NewTransitCarEvent):
             if not new_events.new_transit:
-                new_events.new_transit = (event.new_transit_car,
-                                          event.new_transit_car)
+                new_events.new_transit = [event.new_transit_car,
+                                          event.new_transit_car]
             else:
                 new_events.new_transit[1].next_car = event.new_transit_car
                 new_events.new_transit[1]          = event.new_transit_car

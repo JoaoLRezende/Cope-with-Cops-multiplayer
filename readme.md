@@ -6,7 +6,7 @@ Not sure what exactly to implement yet. Some ideas:
 - a street race. No cops. (But then you'd need to be able to accelerate and brake and stuff.)
 
 TODO:
-- generalize the transit-car-receiving mechanism. Make us able to receive cars at any latitude. (deque?)
+- why are other some cop cars' sirens not animated?
 - prevent the rendering functions from trying to draw (i.e. passing to draw_car) cars whose latitude is is lower than the minimum visible latitude, for efficiency..
 - implement a very barebones server that allows receiving debug messages from the client.
 - implement proper accelerating and breaking.
