@@ -8,8 +8,10 @@ from time import time
 from common.constants import *
 
 
+"""Constant attributes initialized by the init function.
+See that function for details.
+"""
 colors = None
-
 _screen = None
 _road = None
 
@@ -96,7 +98,6 @@ def _update_cop_siren_lights(cop, max_visible_latitude):
         if cop.current_siren_colors[0] == colors.index(curses.COLOR_RED):
             cop.current_siren_colors = (colors.index(curses.COLOR_BLUE),
                                         colors.index(curses.COLOR_RED))
-
         else:
             cop.current_siren_colors = (colors.index(curses.COLOR_RED),
                                         colors.index(curses.COLOR_BLUE))
@@ -112,6 +113,16 @@ def _update_cop_siren_lights(cop, max_visible_latitude):
                 cop.current_siren_colors[1])
 
 
+def get_maximum_visible_latitude(player_car):
+    """Calculate the world latitude that corresponds to the topmost row.
+
+    Takes the player's car to use as a reference point.
+    """
+    return player_car.latitude_int() + (_road.getmaxyx()[0]
+                                        - PLAYER_DISTANCE_FROM_BOTTOM
+                                        - CAR_HEIGHT)
+
+
 def _draw_car(car, max_visible_latitude):
     for latitude in range (car.latitude_int(),
                            car.latitude_int() - CAR_HEIGHT, -1):
@@ -123,19 +134,14 @@ def _draw_car(car, max_visible_latitude):
         _update_cop_siren_lights(car, max_visible_latitude)
         
 
-def get_maximum_visible_latitude(player_car):
-    return player_car.latitude + (_road.getmaxyx()[0]
-                                  - PLAYER_DISTANCE_FROM_BOTTOM
-                                  - CAR_HEIGHT)
-
-
 def draw_scene(player_car, visible_transit_cars):
     _road.erase()
-    maximum_visible_latitude = (player_car.latitude_int()
-                                + _road.getmaxyx()[0]
-                                - PLAYER_DISTANCE_FROM_BOTTOM
-                                - CAR_HEIGHT)
+
+    maximum_visible_latitude = get_maximum_visible_latitude(player_car)
+
     _draw_car(player_car, maximum_visible_latitude)
+
     for car in visible_transit_cars:
         _draw_car(car, maximum_visible_latitude)
+
     _road.refresh()
