@@ -12,9 +12,17 @@ _transit_back  = None
 _transit_front = None
 
 
-"""TODO: document this; write abour ordering, efficiency and stuff
-"""
+
 def update_transit(new_events):
+    """Take new transit cars from an events object.
+
+    Takes an object that has a list new_transit containing references
+    to the back and to the front of linked list of cars.
+    and the 
+    The received list of cars is simply appended to the end of our transit.
+    Thus, the cars in it are all expected to have latitudes higher
+    than those of the cars we already have, and to be correctly ordered.
+    """
     global _transit_back, _transit_front
 
     if not _transit_front:
