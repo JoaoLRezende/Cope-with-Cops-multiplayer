@@ -7,6 +7,7 @@ Not sure what exactly to implement yet. Some ideas:
 
 TODO:
 - implement a very barebones server that allows receiving debug messages from the client.
+- create a command-line option that makes you able to control your car with the ADWS keys. This would let you play as two players from the same PC.
 - prevent the rendering functions from trying to draw (i.e. passing to draw_car) cars whose latitude is is lower than the minimum visible latitude, for efficiency.
 - implement proper accelerating and breaking.
 - some cars spawn with the same color as the background. Either make the background a unique color or prevent cars from being that color.
