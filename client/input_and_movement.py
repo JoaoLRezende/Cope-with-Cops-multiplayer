@@ -40,7 +40,7 @@ def _should_use_keyboard():
 
 
 def init(player_car, screen_window):
-    player_car.speed = INITIAL_SPEED
+    player_car.velocity = INITIAL_VELOCITY
 
     if _should_use_keyboard():
         from importlib import import_module
@@ -64,14 +64,36 @@ def read_input_and_update_player(player_car):
     time_since_last_tick = current_time - time_of_last_tick
     time_of_last_tick = current_time
 
-    player_car.latitude += player_car.speed * time_since_last_tick
+    player_car.latitude += player_car.velocity * time_since_last_tick
 
     if keyboard:
-        if keyboard.is_pressed("left"):  player_car.longitude += -1     # TODO: time_since_last_tick should obviously be involved here. acceleration too? idk.
-        if keyboard.is_pressed("right"): player_car.longitude += +1
+        if   keyboard.is_pressed("left"):  player_car.longitude += -1
+        elif keyboard.is_pressed("right"): player_car.longitude += +1
 
-        if keyboard.is_pressed("up"):   player_car.speed +=   1
-        if keyboard.is_pressed("down"): player_car.speed +=  -1
+        """TODO: the stuff below could probably be significantly simplified with a variable like intended_directon=(1 if keyboard.is_pressed("up") else -1) and then some multiplications"""
+
+        # If the player is trying to increase their vertical speed.
+        if keyboard.is_pressed("up")     and player_car.velocity >= 0:
+            player_car.velocity += + PEDAL_ACCELERATION * time_since_last_tick
+        elif keyboard.is_pressed("down") and player_car.velocity <= 0:
+            player_car.velocity += - PEDAL_ACCELERATION * time_since_last_tick
+
+        # If the player is braking.
+        elif keyboard.is_pressed("up")   and player_car.velocity < 0:
+            player_car.velocity += + BRAKE_DECELERATION * time_since_last_tick
+        elif keyboard.is_pressed("down") and player_car.velocity > 0:
+            player_car.velocity += - BRAKE_DECELERATION * time_since_last_tick
+
+        # If the player is sleeping.
+        else:
+            speed_decrement = IDLE_DECELERATION * time_since_last_tick
+
+            if abs(player_car.velocity) < speed_decrement:
+                player_car.velocity = 0
+            elif player_car.velocity > 0:
+                player_car.velocity += - speed_decrement
+            else:
+                player_car.velocity += + speed_decrement
     
     else:
         input = screen.getch()
@@ -87,4 +109,4 @@ def read_input_and_update_player(player_car):
         elif input == curses.KEY_RIGHT:
             player_car.longitude +=  1
     
-    debug_msg("speed: " + str(player_car.speed))
+    debug_msg("velocity: " + str(player_car.velocity))

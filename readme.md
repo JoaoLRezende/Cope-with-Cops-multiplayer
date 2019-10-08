@@ -15,4 +15,5 @@ TODO:
 - module attributes that shouldn't be visible from other modules should have a name beginning with an underscore, as per PEP 8.
 - make sure all the cool parts of the original Cope with Cops are here. (Including explosions and stuff. But without the annoying hey-look-this-explosion-is-so-cool pause. Also make explosions grow outwards while gradually fading.)
 - make sure the thing works on most PCs. (Make sure it works on Windows too. Also make sure smooth steering − through the keyboard module − is always used there, since it doesn't require administrative privileges there.)
+- make the transit increasingly more dense as time passes. (After a while, it should force all players to go really slowly.)
 - consider that the server doesn't need to generate transit cars in a purely random manner. It could occasionaly spawn some barriers of cars or (maybe some maze-like stuff) or other obstacles that force the drivers to slow down.

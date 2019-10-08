@@ -18,8 +18,6 @@ class Car:
     (No cell is "half-occupied".)
     Thus, for those purposes, instances of Car provide methods that return an
     approximation of the car's exact position as an integer.
-    TODO: make sure all parts of the code play nice with this, and use only the
-    type they should use.
     """
     def latitude_int(self):  return round(self.latitude)
     def longitude_int(self): return round(self.longitude)
