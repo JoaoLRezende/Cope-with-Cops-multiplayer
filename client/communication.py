@@ -1,7 +1,7 @@
 """
 A possible implementation:
 In the beginning of each game tick, this module's get_new_events function
-is called in the main loop.
+is called from the main loop.
 receive_events then receives new data from the server and returns a container
 with that data that has each kind of data accessible through a different
 attribute, for consumtion by the other modules.
