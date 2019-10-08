@@ -15,19 +15,18 @@ from sys import exit    # temp
 file = None
 
 
-
 def init():
     global file
     file = open("test_messages.txt")
 
 
-
 class Event:
-    pass
-
-class NewTransitCarEvent(Event):
     def __init__(self):
+        """Only one of these attributes will hold a non-None value,
+        depending on what type of event this object carries.
+        """
         self.new_transit_car = None
+    pass
 
 def _receive_events():
     """Generator that parses incoming event strings and yields event objects.
@@ -36,7 +35,7 @@ def _receive_events():
     """
     for line in file:
         if line[0] == "t":
-            new_transit_car_event = NewTransitCarEvent()
+            new_transit_car_event = Event()
             car_parameters = line[1:].split(",")
             new_transit_car_event.new_transit_car = Car(
                 latitude   =      int(car_parameters[0]),
@@ -60,7 +59,7 @@ def get_new_events():
         linked list of cars, which is to be delivered
         as a 2-element list [first_car, last car].
         """
-        if isinstance(event, NewTransitCarEvent):
+        if hasattr(event, "new_transit_car"):
             if not new_events.new_transit:
                 new_events.new_transit = [event.new_transit_car,
                                           event.new_transit_car]
