@@ -14,11 +14,10 @@ INITIAL_VELOCITY = 0     # in cells per second
 
 # The speed-increase rate when the player presses up,
 # in cells per second per second.
-PEDAL_ACCELERATION = 70
-# The speed-decrease rate when the player isn't pressing anything.
+PEDAL_ACCELERATION = 100
+# The speed-decrease rate when the player isn't pressing up nor down,
+# in cells per second per second.
 IDLE_DECELERATION =  20
-# The speed-decrease rate when the player presses down while moving forwards.
-BRAKE_DECELERATION = 100
 
 COP_SIREN_PERIOD = .05      # in seconds
 
@@ -29,3 +28,6 @@ MIN_SCREEN_WIDTH = ROAD_WIDTH + 2
 
 # The minimum amount of time that must pass between ticks, in seconds. (#TODO: enforce this.)
 MIN_TICK_INTERVAL = 1 / MAX_FPS
+
+# The speed-decrease rate when the player presses down while moving forwards.
+BRAKE_DECELERATION = PEDAL_ACCELERATION + IDLE_DECELERATION
