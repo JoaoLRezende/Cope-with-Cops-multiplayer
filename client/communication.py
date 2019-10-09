@@ -7,17 +7,22 @@ with that data that has each kind of data accessible through a different
 attribute, for consumtion by the other modules.
 """
 
+import socket
+
 from common.constants import *
 from common.car       import Car
 from sys import exit    # temp
 
 
-file = None
+server_socket = None
 
 
 def init():
-    global file
-    file = open("test_messages.txt")
+    global server_socket
+    server_socket = socket.socket(type = (socket.SOCK_STREAM))
+    server_socket.connect(("localhost", 8009))
+    server_socket.setblocking(False)
+
 
 
 class Event:
@@ -26,17 +31,25 @@ class Event:
         depending on what type of event this object carries.
         """
         self.new_transit_car = None
-    pass
 
+_raw_received_text = ""
 def _receive_events():
     """Generator that parses incoming event strings and yields event objects.
     
     Returns when there aren't any more full event strings to parse.
     """
-    for line in file:
-        if line[0] == "t":
+    global _raw_received_text
+    try:
+        _raw_received_text += str(server_socket.recv(4096), encoding="utf-8")
+    except BlockingIOError:
+        pass
+
+    while "\n" in _raw_received_text:
+        message, _, _raw_received_text = _raw_received_text.partition("\n")
+
+        if message and message[0] == "t":
             new_transit_car_event = Event()
-            car_parameters = line[1:].split(",")
+            car_parameters = message[1:].split(",")
             new_transit_car_event.new_transit_car = Car(
                 latitude   =      int(car_parameters[0]),
                 longitude  =      int(car_parameters[1]),

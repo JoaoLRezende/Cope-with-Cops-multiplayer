@@ -18,3 +18,4 @@ TODO:
 - make sure the thing works on most PCs. (Make sure it works on Windows too. Also make sure smooth steering − through the keyboard module − is always used there, since it doesn't require administrative privileges there.)
 - make the transit increasingly more dense as time passes. (After a while, it should force all players to go really slowly.)
 - consider that the server doesn't need to generate transit cars in a purely random manner. It could occasionaly spawn some barriers of cars or (maybe some maze-like stuff) or other obstacles that force the drivers to slow down.
+- study the documentation for the socket module and ip(7), tcp(7), socket(7) and other related man pages and see if there's anything useful there we should be using or considering.
