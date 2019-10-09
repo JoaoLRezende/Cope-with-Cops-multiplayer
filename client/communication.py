@@ -20,7 +20,7 @@ server_socket = None
 def init():
     global server_socket
     server_socket = socket.socket(type = (socket.SOCK_STREAM))
-    server_socket.connect(("localhost", 8009))
+    server_socket.connect(("localhost", 8008))
     server_socket.setblocking(False)
 
 

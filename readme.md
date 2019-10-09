@@ -1,12 +1,9 @@
 To run the game, use ```python3 .``` or ```python3 __main__.py```.
 
-Not sure what exactly to implement yet. Some ideas:
-- same thing as in the original game, but with one of the players controlling the cop car. (Maybe the player controlling the cop car should have a very short view distance. Or maybe make him only able to see cars that he would actually be able to see.)
-- something very similar to the original game, but in which two players are chased simultaneously by two cop cars. (Maybe make the two players able to support each other in some way.)
-- a street race. No cops. (But then you'd need to be able to accelerate and brake and stuff.)
 
 TODO:
 - implement a very barebones server that allows receiving debug messages from the client.
+- implement reading the server's IP address and port number through the command line. (There's a standard module that facilitates this, I think.)
 - create a command-line option that makes you able to control your car with the ADWS keys. This would let you play as two players from the same PC.
 - prevent the rendering functions from trying to draw (i.e. passing to draw_car) cars whose latitude is is lower than the minimum visible latitude, for efficiency.
 - implement proper accelerating and breaking.

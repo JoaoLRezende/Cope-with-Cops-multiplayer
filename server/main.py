@@ -3,7 +3,7 @@ import socket
 
 def main():
     listening_socket = socket.socket()
-    listening_socket.bind(("localhost", 8009))
+    listening_socket.bind(("localhost", 8008))
     listening_socket.listen()
 
     while True:
