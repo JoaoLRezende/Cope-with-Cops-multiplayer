@@ -2,8 +2,8 @@ To run the game, use ```python3 .``` or ```python3 __main__.py```.
 
 
 TODO:
+- study the argparse module and implement reading the server's IP address and port number through the command line.
 - implement a very barebones server that allows receiving debug messages from the client.
-- implement reading the server's IP address and port number through the command line. (There's a standard module that facilitates this, I think.)
 - create a command-line option that makes you able to control your car with the ADWS keys. This would let you play as two players from the same PC.
 - prevent the rendering functions from trying to draw (i.e. passing to draw_car) cars whose latitude is is lower than the minimum visible latitude, for efficiency.
 - implement proper accelerating and breaking.
