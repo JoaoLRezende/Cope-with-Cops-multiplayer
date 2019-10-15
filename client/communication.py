@@ -4,7 +4,6 @@ from common.constants import *
 from common.car       import Car
 
 
-
 server_socket = None
 
 def init():

@@ -1,11 +1,17 @@
-To run the game, use ```python3 .``` or ```python3 __main__.py```.
+Only a very simple client-server communication test is currently implemented.
+To run it, use
+    python3 __main__.py --server
+to start a server and then
+    sudo python3 __main__.py
+to run a client instance.
 
 
 TODO:
 - make sure we haven't lost anything useful since diverging from the OG networking_test, and merge into it.
-- study the argparse module and implement reading the server's IP address and port number through the command line.
+- fix the "curses function returned NULL" that appears when the player's window isn't big enough.
+- use the argparse module to take the server's IP address and port number as arguments in the command line.
 - implement a very barebones server that allows receiving debug messages from the client.
-- we might want to use this deleted piece of code somewhere:
+- we might want to use this deleted piece of code somewhere to generate random cars:
     from random import randrange
     from client.rendering import colors
     for latitude in range(5, 500, 2):
