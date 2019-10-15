@@ -2,8 +2,17 @@ To run the game, use ```python3 .``` or ```python3 __main__.py```.
 
 
 TODO:
+- make sure we haven't lost anything useful since diverging from the OG networking_test, and merge into it.
 - study the argparse module and implement reading the server's IP address and port number through the command line.
 - implement a very barebones server that allows receiving debug messages from the client.
+- we might want to use this deleted piece of code somewhere:
+    from random import randrange
+    from client.rendering import colors
+    for latitude in range(5, 500, 2):
+        car = Car(latitude, randrange(ROAD_WIDTH - CAR_WIDTH),
+                  colors[randrange(1, len(colors))])
+        transit.add_car(car)
+
 - create a command-line option that makes you able to control your car with the ADWS keys. This would let you play as two players from the same PC.
 - prevent the rendering functions from trying to draw (i.e. passing to draw_car) cars whose latitude is is lower than the minimum visible latitude, for efficiency.
 - implement proper accelerating and breaking.
