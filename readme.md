@@ -11,7 +11,6 @@ to run a client instance.
 
 
 TODO:
-- make sure we haven't lost anything useful since diverging from the OG networking_test, and merge into it.
 - fix the "curses function returned NULL" that appears when the player's window isn't big enough.
 - use the argparse module to take the server's IP address and port number as arguments in the command line.
 - implement a very barebones server that allows receiving debug messages from the client.
