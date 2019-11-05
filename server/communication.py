@@ -1,17 +1,10 @@
-import socket
-
-from common.constants import *
-from common.car       import Car
-
-
-server_socket = None
+_cop_socket = None
+_fugitive_socket = None
 
 def init():
-    global server_socket
-    server_socket = socket.socket(type = socket.SOCK_STREAM)
-    server_socket.connect(("localhost", 8008))
-    server_socket.setblocking(False)
-
+    listening_socket = socket.socket()
+    listening_socket.bind(("localhost", 8008))
+    listening_socket.listen()
 
 class Event:
     """Instances of this class encapsulate the events returned by
@@ -21,7 +14,7 @@ class Event:
         """Only one of these attributes will hold a non-None value,
         depending on what type of event the object carries.
         """
-        self.new_transit_car = None
+        self.new_player_position = None
 
 
 """_raw_received_text contains received text that still hasn't been
@@ -91,8 +84,22 @@ def get_new_events():
                 new_events.new_transit[1]          = event.new_transit_car
     return new_events
 
+def send_car(car):
+    for socket in (_cop_socket, _fugitive_socket):
+        socket.send(      "SPAWNNPC "
+                    + car.id        + " "
+                    + car.latitude  + " "
+                    + car.longitude + " "
+                    + car.color     + "\n")
 
-def debug_msg(message):
-    """Send a message to be shown in the server's console.
-    """
-    pass    # TODO
+def spawn_player(car, target):
+    if target == "cop":
+        socket = _cop_socket
+    else:
+        socket = _fugitive_socket
+    
+        socket.send(      "SPAWNPLAYER "
+                    + car.id        + " "
+                    + car.latitude  + " "
+                    + car.longitude + " "
+                    + car.color     + "\n")
