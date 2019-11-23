@@ -8,7 +8,7 @@ CAR_WIDTH  = 2
 
 PLAYER_DISTANCE_FROM_BOTTOM = 10
 
-MAX_FPS = 60
+MAX_FPS = 30
 
 INITIAL_VELOCITY = 0     # in cells per second
 
@@ -26,7 +26,7 @@ COP_SIREN_PERIOD = .05      # in seconds
 
 MIN_SCREEN_WIDTH = ROAD_WIDTH + 2
 
-# The minimum amount of time that must pass between ticks, in seconds. (#TODO: enforce this.)
+# The minimum amount of time that must pass between ticks, in seconds.
 MIN_TICK_INTERVAL = 1 / MAX_FPS
 
 # The speed-decrease rate when the player presses down while moving forwards.
