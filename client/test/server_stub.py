@@ -4,6 +4,7 @@ a text file.
 
 import socket
 from sys import argv
+from time import sleep
 
 
 FILE_NAME = "test_messages.txt"
@@ -28,8 +29,16 @@ def main():
 
     while True:
         connected_socket, client_address = listening_socket.accept()
-        messages_file = open(FILE_NAME, "rb")
-        connected_socket.sendfile(messages_file)
+        messages_file = open(FILE_NAME, "r")
+        time_between_messages = 0
+        for line in messages_file:
+            if line[0:6] == "\wait ":
+                sleep(float(line[6:]))
+            elif line[0:9] == "\waitall ":
+                time_between_messages = float(line[9:])
+            else:
+                connected_socket.send(line.encode())
+                sleep(time_between_messages)
         
 
 main()
