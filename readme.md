@@ -1,11 +1,11 @@
 Only a very simple client-server communication test is currently implemented.
 To run it, use
 
-    python3 cwp.py --server
+    python3 cwc.py --server
 
 to start a server and then
 
-    sudo python3 cwp.py
+    sudo python3 cwc.py
 
 to run a client instance.
 
