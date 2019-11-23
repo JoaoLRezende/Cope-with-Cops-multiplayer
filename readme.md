@@ -1,11 +1,11 @@
 Only a very simple client-server communication test is currently implemented.
-To run it, use
+To execute it, cd into client/test and execute the command
 
-    python3 cwc.py --server
+    python3 server_stub.py --porn <port number>
 
-to start a server and then
+to start the server stub and then, from the root directory, execute
 
-    sudo python3 cwc.py
+    sudo python3 cwc.py --port <port number>
 
 to run a client instance.
 

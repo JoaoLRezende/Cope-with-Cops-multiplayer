@@ -1,15 +1,28 @@
 import socket
-
+from sys import argv
 from common.constants import *
 from common.car       import Car
 
 
 server_socket = None
 
+
+def _get_port_num():
+    """Get the port number the user passed in the command line.
+    """
+    # Find the argument that contains the port number.
+    for argument in argv:
+        """If this argument's first character is a digit, then
+        it's probably the port number. ¯\_(ツ)_/¯
+        """
+        if argument[0].isdecimal():
+            return int(argument)
+
+
 def init():
     global server_socket
     server_socket = socket.socket(type = socket.SOCK_STREAM)
-    server_socket.connect(("localhost", 8008))
+    server_socket.connect(("localhost", _get_port_num()))
     server_socket.setblocking(False)
 
 
@@ -30,7 +43,7 @@ broken into separate messages. It is manipulated only by _receive_events.
 _raw_received_text = ""
 
 def _receive_events():
-    """Generator that parses incoming messages and yields event objects.
+    """Generator that parses incoming messages and yields Event objects.
     
     Returns when there aren't any more full messages to parse.
     """
@@ -45,13 +58,12 @@ def _receive_events():
     while "\n" in _raw_received_text:
         message, _, _raw_received_text = _raw_received_text.partition("\n")
         if message:
-
             """If the first word in the message is a "SPAWNNPC"; i.e., if it is
             a new transit car we're receiving.
             """
             if message[0:8] == "SPAWNNPC":
                 new_transit_car_event = Event()
-                car_parameters = message[1:].split(" ")
+                car_parameters = message[9:].split(" ")
                 new_transit_car_event.new_transit_car = Car(
                     latitude   =      int(car_parameters[0]),
                     longitude  =      int(car_parameters[1]),
