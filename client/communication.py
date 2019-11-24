@@ -185,12 +185,18 @@ def get_new_events():
     return new_events
 
 def send(message):
-    server_socket.send(message.encode())
+    server_socket.send((message + "\n").encode())
 
+_last_sent_coordinates = [None, None]
 def send_position(car):
-    send("MV " + str(car.latitude) + " " + str(car.longitude) + "\n")
+    global _last_sent_coordinates
+    if (car.latitude_int() != _last_sent_coordinates[0]
+        or car.longitude_int() != _last_sent_coordinates[1]):
+        send("MV " + str(car.latitude_int()) + " " +
+                     str(car.longitude_int()) + "\n")
+        _last_sent_coordinates = [car.latitude_int(), car.longitude_int()]
 
 def debug_msg(message):
     """Send a message to be shown in the server's console.
     """
-    send("DEBUG " + "message")
+    send("DEBUG " + message)

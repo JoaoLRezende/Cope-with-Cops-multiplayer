@@ -108,5 +108,3 @@ def read_input_and_update_player(player_car):
             player_car.longitude += -1
         elif input == curses.KEY_RIGHT:
             player_car.longitude +=  1
-    
-    debug_msg("velocity: " + str(player_car.velocity))
