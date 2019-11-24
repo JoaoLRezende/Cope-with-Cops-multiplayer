@@ -86,8 +86,8 @@ def init():
     server_socket.connect(("localhost", _get_port_num()))
 
     player_id = None
-    """Get the event from _receive_events containing our ID received
-    in a HELLO message. (_receive_events will yield nothing
+    """Get the event from _receive_events containing our ID (received
+    in a HELLO message). (_receive_events will yield nothing
     but that event. The body of the for loop below will be executed only once.)
     """
     for player_id_event in _receive_events():
@@ -95,6 +95,8 @@ def init():
     assert player_id is not None
 
     server_socket.setblocking(False)
+
+    return player_id
 
 
 def get_new_events():

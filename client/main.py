@@ -11,10 +11,17 @@ def main(screen):
     rendering.init(screen)
     start_screen.request_resize(screen, MIN_SCREEN_HEIGHT, MIN_SCREEN_WIDTH)
 
-    communication.init()
+    player_id = communication.init()
 
-    player_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
-                     ROAD_WIDTH // 2, 7, is_cop_car = True)
+    cop_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
+                  ROAD_WIDTH // 2, 7, is_cop_car = True)
+    fugitive_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
+                       ROAD_WIDTH // 2, 6, is_cop_car = False)
+    if player_id == 0:
+        player_car, other_car = cop_car, fugitive_car
+    elif player_id == 1:
+        player_car, other_car = fugitive_car, cop_car
+
     input_and_movement.init(player_car, screen)
     
     while True:
