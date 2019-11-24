@@ -26,10 +26,18 @@ def main(screen):
     
     while True:
         input_and_movement.read_input_and_update_player(player_car)
+
         new_events = communication.get_new_events()
+
+        if new_events.other_car_position:
+            other_car.latitude, other_car.longitude = new_events.other_car_position
+
         transit.update_transit(new_events)
+
         visible_transit_cars = transit.get_visible_cars(rendering.get_maximum_visible_latitude(player_car))
-        rendering.draw_scene(player_car, visible_transit_cars)
+
+        rendering.draw_scene(player_car, other_car, visible_transit_cars)
+
         transit.check_for_collision(player_car)
 
         tick_rate_control.sleep_until_next_tick()

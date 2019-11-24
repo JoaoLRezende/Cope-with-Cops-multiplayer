@@ -139,12 +139,13 @@ def _draw_car(car, max_visible_latitude):
         _update_cop_siren_lights(car, max_visible_latitude)
         
 
-def draw_scene(player_car, visible_transit_cars):
+def draw_scene(player_car, other_car, visible_transit_cars):
     _road.erase()
 
     maximum_visible_latitude = get_maximum_visible_latitude(player_car)
 
     _draw_car(player_car, maximum_visible_latitude)
+    _draw_car(other_car, maximum_visible_latitude)
 
     for car in visible_transit_cars:
         _draw_car(car, maximum_visible_latitude)

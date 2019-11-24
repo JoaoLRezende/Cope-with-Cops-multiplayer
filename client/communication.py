@@ -30,6 +30,7 @@ class Event:
         """
         self.player_id = None
         self.new_transit_car = None
+        self.other_car_position = None
 
 
 """_raw_received_text contains received text that still hasn't been
@@ -78,7 +79,14 @@ def _receive_events():
                     is_cop_car = bool(int(car_parameters[3]))
                 )
                 yield new_transit_car_event
-
+            """If the first word in the messsage is "MV", then we're receiving
+            an update of the position of the other player's car.
+            """
+            if message[0:2] == "MV":
+                car_position_event = Event()
+                car_position_event.other_car_position = \
+                                        tuple(map(int, message[3:].split(" ")))
+                yield car_position_event
 
 def init():
     global server_socket
@@ -111,11 +119,11 @@ def get_new_events():
     class EventsContainer():
         def __init__(self):
             self.new_transit = None
+            self.other_car_position = None
 
     new_events = EventsContainer()
 
     for event in _receive_events():
-
         """If event is a new transit car, add it to new_events's new_transit
         linked list of cars, which is to be delivered
         as a 2-element list [first_car, last car].
@@ -127,6 +135,13 @@ def get_new_events():
             else:
                 new_events.new_transit[1].next_car = event.new_transit_car
                 new_events.new_transit[1]          = event.new_transit_car
+
+        """If event is an update of the coordinates of the other player's car,
+        store it in new.events.other_car_position.
+        """
+        if hasattr(event, "other_car_position"):
+            new_events.other_car_position = event.other_car_position
+            
     return new_events
 
 
