@@ -11,11 +11,11 @@ def main(screen):
     rendering.init(screen)
     start_screen.request_resize(screen, MIN_SCREEN_HEIGHT, MIN_SCREEN_WIDTH)
 
+    communication.init()
+
     player_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
                      ROAD_WIDTH // 2, 7, is_cop_car = True)
     input_and_movement.init(player_car, screen)
-
-    communication.init()
     
     while True:
         input_and_movement.read_input_and_update_player(player_car)

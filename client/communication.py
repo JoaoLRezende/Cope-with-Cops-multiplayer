@@ -1,5 +1,6 @@
 import socket
 from sys import argv
+from sys import exit
 from common.constants import *
 from common.car       import Car
 
@@ -19,13 +20,6 @@ def _get_port_num():
             return int(argument)
 
 
-def init():
-    global server_socket
-    server_socket = socket.socket(type = socket.SOCK_STREAM)
-    server_socket.connect(("localhost", _get_port_num()))
-    server_socket.setblocking(False)
-
-
 class Event:
     """Instances of this class encapsulate the events returned by
     _receive_events.
@@ -34,6 +28,7 @@ class Event:
         """Only one of these attributes will hold a non-None value,
         depending on what type of event the object carries.
         """
+        self.player_id = None
         self.new_transit_car = None
 
 
@@ -58,7 +53,19 @@ def _receive_events():
     while "\n" in _raw_received_text:
         message, _, _raw_received_text = _raw_received_text.partition("\n")
         if message:
-            """If the first word in the message is a "SPAWNNPC"; i.e., if it is
+            """If the first word in the message is HELLO, then we are
+            receiving our ID as part of the initialization procedure.
+            """
+            if message[:5] == "HELLO":
+                player_id_event = Event()
+                player_id_event.player_id = int(message[5:])
+                yield player_id_event
+                """We return after yielding this event,
+                since we don't want to receive anything else yet.
+                """
+                return
+
+            """If the first word in the message is "SPAWNNPC"; i.e., if it is
             a new transit car we're receiving.
             """
             if message[0:8] == "SPAWNNPC":
@@ -71,7 +78,24 @@ def _receive_events():
                     is_cop_car = bool(int(car_parameters[3]))
                 )
                 yield new_transit_car_event
-        
+
+
+def init():
+    global server_socket
+    server_socket = socket.socket(type = socket.SOCK_STREAM)
+    server_socket.connect(("localhost", _get_port_num()))
+
+    player_id = None
+    """Get the event from _receive_events containing our ID received
+    in a HELLO message. (_receive_events will yield nothing
+    but that event. The body of the for loop below will be executed only once.)
+    """
+    for player_id_event in _receive_events():
+        player_id = player_id_event.player_id
+    assert player_id is not None
+
+    server_socket.setblocking(False)
+
 
 def get_new_events():
     """Get an object containing all events received since the last tick.
