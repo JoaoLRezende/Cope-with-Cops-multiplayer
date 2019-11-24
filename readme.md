@@ -11,7 +11,6 @@ to run a client instance.
 
 
 TODO:
-- fix all transit cars disappearing when an MV message is received.
 - implement interpretation of all messages the clients can receive.
 - fix the "curses function returned NULL" that appears when the player's window isn't big enough.
 - use the argparse module to take the server's IP address and port number as arguments in the command line.

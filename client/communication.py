@@ -128,7 +128,7 @@ def get_new_events():
         linked list of cars, which is to be delivered
         as a 2-element list [first_car, last car].
         """
-        if hasattr(event, "new_transit_car"):
+        if event.new_transit_car:
             if not new_events.new_transit:
                 new_events.new_transit = [event.new_transit_car,
                                           event.new_transit_car]
@@ -139,9 +139,9 @@ def get_new_events():
         """If event is an update of the coordinates of the other player's car,
         store it in new.events.other_car_position.
         """
-        if hasattr(event, "other_car_position"):
+        if event.other_car_position:
             new_events.other_car_position = event.other_car_position
-            
+
     return new_events
 
 
