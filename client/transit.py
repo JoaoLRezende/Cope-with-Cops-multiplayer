@@ -1,4 +1,5 @@
 from common.constants import *
+import client.communication as communication
 
 from sys import exit   # temp
 
@@ -56,11 +57,19 @@ def get_visible_cars(maximum_visible_latitude):
     return Iterator(_transit_back, maximum_visible_latitude)
 
 
+def are_cars_colliding(car1, car2):
+    Ay, Ax = car1.latitude, car1.longitude
+    By, Bx = car2.latitude, car2.longitude
+
+    if (((Ax <= Bx and Ax + CAR_WIDTH > Bx) or (Bx <= Ax and Bx + CAR_WIDTH > Ax)) and
+        ((Ay <= By and Ay + CAR_HEIGHT > By) or (By <= Ay and By + CAR_HEIGHT > Ay))):
+        return True
+    else:
+        return False
+
+
 def check_for_collision(player_car):
     for other_car in get_visible_cars(player_car.latitude):
-        Ay, Ax = player_car.latitude, player_car.longitude
-        By, Bx =  other_car.latitude,  other_car.longitude
-
-        if (((Ax <= Bx and Ax + CAR_WIDTH > Bx) or (Bx <= Ax and Bx + CAR_WIDTH > Ax)) and
-            ((Ay <= By and Ay + CAR_HEIGHT > By) or (By <= Ay and By + CAR_HEIGHT > Ay))):
-            pass # debug_msg("i crashed :(")
+        if are_cars_colliding(player_car, other_car):
+            communication.send("BOOM")
+            exit("You crashed! You lost the game.")

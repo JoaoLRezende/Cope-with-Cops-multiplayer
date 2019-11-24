@@ -1,3 +1,4 @@
+from sys import exit
 from common.constants import *
 from common.car import Car
 import client.start_screen       as start_screen
@@ -14,7 +15,7 @@ def main(screen):
 
     cop_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
                   ROAD_WIDTH // 2, 7, is_cop_car = True)
-    fugitive_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
+    fugitive_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM + INITIAL_FUGITIVE_DISTANCE_FROM_COP,
                        ROAD_WIDTH // 2, 6, is_cop_car = False)
     if player_id == 0:
         player_car, other_car = cop_car, fugitive_car
@@ -62,5 +63,8 @@ def main(screen):
         rendering.draw_scene(player_car, other_car, visible_transit_cars)
 
         transit.check_for_collision(player_car)
+        if player_id == 0 and transit.are_cars_colliding(player_car, other_car):
+            communication.send("CAPTURE")
+            exit("You captured the fugitive! You won the game.")
 
         tick_rate_control.sleep_until_next_tick()
