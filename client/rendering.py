@@ -7,7 +7,6 @@ from time import time
 from common.constants import *
 
 
-
 """Constant attributes initialized by the init function.
 See that function for details.
 """

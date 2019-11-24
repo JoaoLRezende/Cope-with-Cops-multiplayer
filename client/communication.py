@@ -29,6 +29,8 @@ class Event:
         depending on what type of event the object carries.
         """
         self.player_id = None
+        self.fugitive_ready = None
+        self.init = None
         self.new_transit_car = None
         self.other_car_position = None
 
@@ -61,6 +63,30 @@ def _receive_events():
                 player_id_event = Event()
                 player_id_event.player_id = int(message[5:])
                 yield player_id_event
+                """We return after yielding this event,
+                since we don't want to receive anything else yet.
+                """
+                return
+
+            """If the first word in the message is FUGITIVEREADY, then we are
+            in the middle of a call to wait_for_fugitive_ready.
+            """
+            if message[:13] == "FUGITIVEREADY":
+                fugitiveready_event = Event()
+                fugitiveready_event.fugitive_ready = True
+                yield fugitiveready_event
+                """We return after yielding this event,
+                since we don't want to receive anything else yet.
+                """
+                return
+
+            """If the first word in the message is INIT, then we are
+            in the middle of a call to wait_for_init.
+            """
+            if message[:4] == "INIT":
+                init_event = Event()
+                init_event.init = True
+                yield init_event
                 """We return after yielding this event,
                 since we don't want to receive anything else yet.
                 """
@@ -102,9 +128,21 @@ def init():
         player_id = player_id_event.player_id
     assert player_id is not None
 
-    server_socket.setblocking(False)
-
     return player_id
+
+def wait_for_fugitive_ready():
+    fugitive_ready = None
+    for fugitiveready_event in _receive_events():
+        fugitive_ready = fugitiveready_event.fugitive_ready
+    assert fugitive_ready
+
+def wait_for_init():
+    init = None
+    for init_event in _receive_events():
+        init = init_event.init
+    assert init
+
+    server_socket.setblocking(False)
 
 
 def get_new_events():
@@ -144,8 +182,10 @@ def get_new_events():
 
     return new_events
 
+def send(message):
+    server_socket.send(message.encode())
 
 def debug_msg(message):
     """Send a message to be shown in the server's console.
     """
-    pass    # TODO
+    send("DEBUG " + "message")

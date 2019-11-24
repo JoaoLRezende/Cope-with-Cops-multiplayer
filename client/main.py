@@ -9,8 +9,7 @@ import client.transit            as transit
 
 def main(screen):
     start_screen.request_resize(screen, MIN_SCREEN_HEIGHT, MIN_SCREEN_WIDTH)
-    rendering.init(screen)
-
+    
     player_id = communication.init()
 
     cop_car = Car(CAR_HEIGHT + PLAYER_DISTANCE_FROM_BOTTOM,
@@ -23,6 +22,26 @@ def main(screen):
         player_car, other_car = fugitive_car, cop_car
 
     input_and_movement.init(player_car, screen)
+
+    if player_id == 0:
+        start_screen.print_string_centralized(screen,
+            "You are the cop.\n\nWaiting for a criminal to chase.\n\n"
+        )
+        communication.wait_for_fugitive_ready()
+        start_screen.print_string_centralized(screen,
+            "You are the cop.\n\nWe have a fugitive.\n" +
+            "Press any key to start the game."
+        )
+        screen.getch()
+        communication.send("INIT")
+    elif player_id == 1:
+        start_screen.print_string_centralized(screen,
+            "You are the fugitive.\n\nWaiting for the cop to start the game.")
+    
+    communication.wait_for_init()
+
+    rendering.init(screen)
+
     
     while True:
         input_and_movement.read_input_and_update_player(player_car)
@@ -30,12 +49,14 @@ def main(screen):
         new_events = communication.get_new_events()
 
         if new_events.other_car_position:
-            other_car.latitude, other_car.longitude = new_events.other_car_position
+            other_car.latitude, other_car.longitude = \
+                                                  new_events.other_car_position
 
         transit.update_transit(new_events)
 
-        visible_transit_cars = transit.get_visible_cars(rendering.get_maximum_visible_latitude(player_car))
-
+        visible_transit_cars = transit.get_visible_cars(
+            rendering.get_maximum_visible_latitude(player_car)
+        )
         rendering.draw_scene(player_car, other_car, visible_transit_cars)
 
         transit.check_for_collision(player_car)

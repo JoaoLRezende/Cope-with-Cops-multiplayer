@@ -32,12 +32,15 @@ def main():
         messages_file = open(FILE_NAME, "r")
         time_between_messages = 0
         for line in messages_file:
-            if line[0:6] == "\wait ":
+            if line[0] == "#" or len(line) < 2:
+                pass
+            elif line[0:6] == "\wait ":
                 sleep(float(line[6:]))
             elif line[0:9] == "\waitall ":
                 time_between_messages = float(line[9:])
             else:
                 connected_socket.send(line.encode())
+                print("Sent:", line, end = "")
                 sleep(time_between_messages)
         
 
