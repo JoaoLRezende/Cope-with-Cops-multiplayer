@@ -28,10 +28,10 @@ class Event:
         """Only one of these attributes will hold a non-None value,
         depending on what type of event the object carries.
         """
-        self.player_id = None
-        self.fugitive_ready = None
-        self.init = None
-        self.new_transit_car = None
+        self.player_id          = None
+        self.fugitive_ready     = None
+        self.init               = None
+        self.new_transit_car    = None
         self.other_car_position = None
 
 
@@ -55,7 +55,9 @@ def _receive_events():
     # While there is at least one full message to parse, parse it.
     while "\n" in _raw_received_text:
         message, _, _raw_received_text = _raw_received_text.partition("\n")
+
         if message:
+
             """If the first word in the message is HELLO, then we are
             receiving our ID as part of the initialization procedure.
             """
@@ -99,11 +101,12 @@ def _receive_events():
                 new_transit_car_event = Event()
                 car_parameters = message[9:].split(" ")
                 new_transit_car_event.new_transit_car = Car(
-                    latitude   =      int(car_parameters[0]),
-                    longitude  =      int(car_parameters[1]),
-                    color      =      int(car_parameters[2]),
+                    latitude   = int(car_parameters[0]),
+                    longitude  = int(car_parameters[1]),
+                    color      = int(car_parameters[2]),
                 )
                 yield new_transit_car_event
+
             """If the first word in the messsage is "MV", then we're receiving
             an update of the position of the other player's car.
             """
@@ -183,6 +186,9 @@ def get_new_events():
 
 def send(message):
     server_socket.send(message.encode())
+
+def send_position(car):
+    send("MV " + str(car.latitude) + " " + str(car.longitude) + "\n")
 
 def debug_msg(message):
     """Send a message to be shown in the server's console.

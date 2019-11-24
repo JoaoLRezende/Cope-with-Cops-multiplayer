@@ -46,6 +46,8 @@ def main(screen):
     while True:
         input_and_movement.read_input_and_update_player(player_car)
 
+        communication.send_position(player_car)
+
         new_events = communication.get_new_events()
 
         if new_events.other_car_position:
