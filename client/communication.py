@@ -102,7 +102,6 @@ def _receive_events():
                     latitude   =      int(car_parameters[0]),
                     longitude  =      int(car_parameters[1]),
                     color      =      int(car_parameters[2]),
-                    is_cop_car = bool(int(car_parameters[3]))
                 )
                 yield new_transit_car_event
             """If the first word in the messsage is "MV", then we're receiving
