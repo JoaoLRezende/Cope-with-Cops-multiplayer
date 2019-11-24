@@ -8,8 +8,8 @@ import client.communication      as communication
 import client.transit            as transit
 
 def main(screen):
-    rendering.init(screen)
     start_screen.request_resize(screen, MIN_SCREEN_HEIGHT, MIN_SCREEN_WIDTH)
+    rendering.init(screen)
 
     player_id = communication.init()
 

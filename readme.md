@@ -11,8 +11,7 @@ to run a client instance.
 
 
 TODO:
-- implement interpretation of all messages the clients can receive.
-- fix the "curses function returned NULL" that appears when the player's window isn't big enough.
+- implement interpretation of all server-client messages.
 - use the argparse module to take the server's IP address and port number as arguments in the command line.
 - implement a very barebones server that allows receiving debug messages from the client.
 - we might want to use this deleted piece of code somewhere to generate random cars:
