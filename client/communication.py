@@ -116,6 +116,17 @@ def _receive_events():
                                         tuple(map(int, message[3:].split(" ")))
                 yield car_position_event
 
+            """If the messsage is "DED", just commit seppuku.
+            """
+            if message[:3] == "DED":
+                exit("The other player crashed. You win!")
+
+            """If the messsage is "CAPTURED", ditto.
+            """
+            if message[:8] == "CAPTURED":
+                exit("You were captured. You lose.")
+
+
 def init():
     global server_socket
     server_socket = socket.socket(type = socket.SOCK_STREAM)
