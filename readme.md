@@ -5,9 +5,13 @@ To execute it, `cd` into `client/test` and execute the command
 
 to start the server stub and then, from the root directory, execute
 
-    sudo python3 cwc.py --porn <port number>
+    sudo python3 cwc.py --port <port number>
 
-to run a client instance.
+to run a client instance. Then
+
+    sudo python3 cwc.py --wasd --port <port number>
+
+to run another client instance that's controlled by the WASD keys.
 
 
 TODO:
