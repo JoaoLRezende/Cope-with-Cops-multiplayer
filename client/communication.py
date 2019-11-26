@@ -13,7 +13,7 @@ def _get_port_num():
     """
     # Find the argument that contains the port number.
     for argument in argv:
-        """If this argument's first character is a digit, then
+        """If this argument is a string of digits, then
         it's probably the port number. ¯\_(ツ)_/¯
         """
         if argument[0].isdecimal():
@@ -133,27 +133,33 @@ def init():
     server_socket.connect(("localhost", _get_port_num()))
 
     player_id = None
+    server_socket.setblocking(True)
     """Get the event from _receive_events containing our ID (received
     in a HELLO message). (_receive_events will yield nothing
     but that event. The body of the for loop below will be executed only once.)
     """
     for player_id_event in _receive_events():
         player_id = player_id_event.player_id
-    assert player_id is not None
+    if player_id is None:
+        exit("Was expecting my player ID. Didn't get my player ID. :(")
 
     return player_id
 
 def wait_for_fugitive_ready():
+    server_socket.setblocking(True)
     fugitive_ready = None
     for fugitiveready_event in _receive_events():
         fugitive_ready = fugitiveready_event.fugitive_ready
-    assert fugitive_ready
+    if not fugitive_ready:
+        exit("Was expecting a FUGITIVEREADY. Didn't get a FUGITIVEREADY. :(")
 
 def wait_for_init():
+    server_socket.setblocking(True)
     init = None
     for init_event in _receive_events():
         init = init_event.init
-    assert init
+    if not init:
+        exit("Was expecting a INIT message. Didn't get a INIT message. :(")
 
     server_socket.setblocking(False)
 

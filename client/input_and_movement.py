@@ -1,4 +1,4 @@
-from sys import exit
+from sys import exit, argv
 from time import time
 import curses
 
@@ -22,6 +22,11 @@ screen = None
 
 time_of_last_tick = 0
 
+_up    = "up"
+_down  = "down"
+_left  = "left"
+_right = "right"
+
 
 def _should_use_keyboard():
     from platform import system
@@ -37,6 +42,15 @@ def _should_use_keyboard():
 
     else:
         return False
+
+
+def _initialize_keys():
+    global _up, _down, _left, _right
+    if "--wasd" in argv:
+        _up   = "w"
+        _down = "s"
+        _left = "a"
+        _right = "d"
 
 
 def init(player_car, screen_window):
@@ -56,6 +70,8 @@ def init(player_car, screen_window):
         screen = screen_window
         screen.nodelay(True)
 
+    _initialize_keys()
+
 
 def read_input_and_update_player(player_car):
     global time_of_last_tick
@@ -67,11 +83,11 @@ def read_input_and_update_player(player_car):
     player_car.latitude += player_car.velocity * time_since_last_tick
 
     if keyboard:
-        if   keyboard.is_pressed("left"):  player_car.longitude += -1
-        elif keyboard.is_pressed("right"): player_car.longitude += +1
+        if   keyboard.is_pressed(_left):  player_car.longitude += -1
+        elif keyboard.is_pressed(_right): player_car.longitude += +1
 
-        intended_vertical_directon  =  1 if keyboard.is_pressed("up")   else 0
-        intended_vertical_directon += -1 if keyboard.is_pressed("down") else 0
+        intended_vertical_directon  =  1 if keyboard.is_pressed(_up)   else 0
+        intended_vertical_directon += -1 if keyboard.is_pressed(_down) else 0
         # If the player is pressing up or down.
         if intended_vertical_directon:
             # If the player is trying to increase their vertical speed.
