@@ -86,6 +86,11 @@ def read_input_and_update_player(player_car):
         if   keyboard.is_pressed(_left):  player_car.longitude += -1
         elif keyboard.is_pressed(_right): player_car.longitude += +1
 
+        if player_car.longitude < 0:
+            player_car.longitude = 0
+        if player_car.longitude >= ROAD_WIDTH - CAR_WIDTH:
+            player_car.longitude = ROAD_WIDTH - CAR_WIDTH
+
         intended_vertical_directon  =  1 if keyboard.is_pressed(_up)   else 0
         intended_vertical_directon += -1 if keyboard.is_pressed(_down) else 0
         # If the player is pressing up or down.
