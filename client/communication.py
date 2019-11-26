@@ -16,8 +16,17 @@ def _get_port_num():
         """If this argument is a string of digits, then
         it's probably the port number. ¯\_(ツ)_/¯
         """
-        if argument[0].isdecimal():
+        if argument.isdecimal():
             return int(argument)
+
+def _get_IP_address():
+    """Get the IP address the user passed in the command line.
+    """
+    # Find the argument that contains the IP address.
+    for argument in argv:
+        if argument[0].isdecimal() and argument[3] == ".":
+            return argument
+    return ""
 
 
 class Event:
@@ -130,7 +139,7 @@ def _receive_events():
 def init():
     global server_socket
     server_socket = socket.socket(type = socket.SOCK_STREAM)
-    server_socket.connect(("localhost", _get_port_num()))
+    server_socket.connect((_get_IP_address(), _get_port_num()))
 
     player_id = None
     server_socket.setblocking(True)
