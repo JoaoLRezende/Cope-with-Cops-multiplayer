@@ -13,6 +13,7 @@ to run a client instance. Then
 
 to run another client instance that's controlled by the WASD keys.
 
+(```<port number>``` must be greater than 1024.)
 
 TODO:
 - implement interpretation of all server-client messages.
