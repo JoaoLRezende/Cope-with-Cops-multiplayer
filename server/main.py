@@ -65,11 +65,12 @@ class ClientInfo:
 
 
 def main():
-    listening_socket = socket.socket()
+    listening_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     port = _get_port_num()
-    listening_socket.bind(("localhost", _get_port_num()))
+    hostName = socket.gethostbyname( '0.0.0.0' )
+    listening_socket.bind(("", _get_port_num()))
     listening_socket.listen()
-
+    print("Server is running, waiting for players")
     cop = ClientInfo(0, listening_socket.accept()[0])
     cop.send_message("HELLO 0")
 
@@ -82,17 +83,20 @@ def main():
     for client in (cop, fugitive):
         client.socket.setblocking(False)
         client.send_message("INIT")
-
+    distance_between_players = INITIAL_FUGITIVE_DISTANCE_FROM_COP
     difficulty = _get_diff_num()
-    current_max_car_per_row = difficulty * 2
-    current_distance_between_rows = difficulty * 20
-    vertical_distance_between_cars = (abs( difficulty - 3) + 1) * 10
     current_distance_until_next_batch = 0
-    gameIsRunning = True
-    
-    highest_latitude = 50
-    while gameIsRunning:
+    game_is_running = True
+    latest_height = [None,None]
+    highest_latitude = 20
+    chance_to_spawn = 0.5
+    while game_is_running:
+        current_max_car_per_row = difficulty * 2
+        vertical_distance_between_cars = (abs( difficulty - 3) + 1) * 2
+        
+        
         latest_MV_messages = [None, None]
+        
         for client in (cop, fugitive):
             for message in client.receive_messages():
                 if message[:2] == "MV":
@@ -100,25 +104,30 @@ def main():
                 elif message[:4] == "BOOM":
                         if client.id == 1:
                             cop.send_message("DED")
-                            gameIsRunning = False
+                            game_is_running = False
                             exit()
                         else:
                             fugitive.send_message("DED")
-                        gameIsRunning = False
+                        game_is_running = False
                         exit()
                         
                 elif message[:7] == "CAPTURE":
                     fugitive.send_message("CAPTURED")
-                    gameIsRunning = False
+                    game_is_running = False
                     exit()
 
         if latest_MV_messages[1]:
             cop.send_message(latest_MV_messages[1])
+            print(int((latest_MV_messages[1].partition(" ")[2]).partition(" ")[0]))
+            latest_height[1] = int((latest_MV_messages[1].partition(" ")[2]).partition(" ")[0])
             if int((latest_MV_messages[1].partition(" ")[2]).partition(" ")[0]) > highest_latitude:
                 highest_latitude = int((latest_MV_messages[1].partition(" ")[2]).partition(" ")[0])
                 if(current_distance_until_next_batch == 0):
+                    chance_to_spawn = chance_to_spawn + 1/(2 * difficulty)
+                    if chance_to_spawn > 0.8:
+                        chance_to_spawn = 0.8
                     for row in range(current_max_car_per_row):
-                        if(random() > 0.5):
+                        if(random() > chance_to_spawn):
                             color = str(round(1+random() * 7))
                             while (color == "1" or color == "6"):
                                 color = str(round(1 + random() * 7))
@@ -132,6 +141,8 @@ def main():
 
         if latest_MV_messages[0]: 
             fugitive.send_message(latest_MV_messages[0])
+            print(int((latest_MV_messages[0].partition(" ")[2]).partition(" ")[0]))
+            latest_height[0] = int((latest_MV_messages[0].partition(" ")[2]).partition(" ")[0])
             if int((latest_MV_messages[0].partition(" ")[2]).partition(" ")[0]) > highest_latitude:
                 highest_latitude = int((latest_MV_messages[0].partition(" ")[2]).partition(" ")[0]) 
                 if(current_distance_until_next_batch == 0):
@@ -145,4 +156,9 @@ def main():
                                 client.send_message(new_car_message)
                         current_distance_until_next_batch = vertical_distance_between_cars + 1
                 current_distance_until_next_batch -=1
-                #print(current_distance_until_next_batch, highest_latitude)
+        if(latest_height[0] and latest_height[1]):
+            distance_between_players = abs(latest_height[0] - latest_height[1])
+        if distance_between_players > difficulty * 333:
+            for client in (cop, fugitive):
+                client.send_message("FREEDOM")
+                exit()

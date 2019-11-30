@@ -7,6 +7,13 @@ from common.car       import Car
 
 server_socket = None
 
+def _get_ip_num():
+    """Get the IP number the user passed in the command line.
+    """
+    # Find the argument that contains the IP number.
+    for argument in argv:
+        if len(argument.split(".")) == 4:
+            return argument
 
 def _get_port_num():
     """Get the port number the user passed in the command line.
@@ -16,7 +23,7 @@ def _get_port_num():
         """If this argument is a string of digits, then
         it's probably the port number. ¯\_(ツ)_/¯
         """
-        if argument[0].isdecimal():
+        if argument[0].isdecimal() and len(argument) == 4:
             return int(argument)
 
 
@@ -129,8 +136,9 @@ def _receive_events():
 
 def init():
     global server_socket
-    server_socket = socket.socket(type = socket.SOCK_STREAM)
-    server_socket.connect(("localhost", _get_port_num()))
+    server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    print("Atempting to connect to ",_get_ip_num()," on port ", _get_port_num)
+    server_socket.connect((_get_ip_num(), _get_port_num()))
 
     player_id = None
     server_socket.setblocking(True)
