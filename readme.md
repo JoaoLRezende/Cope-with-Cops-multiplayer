@@ -1,19 +1,17 @@
-Only a very simple client-server communication test is currently implemented.
-To execute it, `cd` into `client/test` and execute the command
+To execute the game, use
 
-    python3 server_stub.py --port <port number>
+    python3 cwc.py --server <port number> <difficulty>
 
-to start the server stub and then, from the root directory, execute
+to start the server and then
 
-    sudo python3 cwc.py --port <port number>
+    sudo python3 cwc.py <IP address> <port number>
 
-to run a client instance. Then
+to run the client instances.
 
-    sudo python3 cwc.py --wasd --port <port number>
+```--wasd``` can be used to steer with the WASD keys instead of the arrow keys.
 
-to run another client instance that's controlled by the WASD keys.
-
-(```<port number>``` must be greater than 1024.)
+```<port number>``` must be greater than 1024.  
+```<difficulty>``` must be an integer between 1 and 3 inclusive.
 
 TODO:
 - implement interpretation of all server-client messages.
