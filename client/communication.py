@@ -126,12 +126,21 @@ def _receive_events():
             """If the messsage is "DED", just commit seppuku.
             """
             if message[:3] == "DED":
+                server_socket.close();
                 exit("The other player crashed. You win!")
 
             """If the messsage is "CAPTURED", ditto.
             """
             if message[:8] == "CAPTURED":
+                server_socket.close();
                 exit("You were captured. You lose.")
+
+            """If the messsage is "FREEDOM", ditto.
+            """
+            if message[:7] == "FREEDOM":
+                server_socket.close();
+                exit("O fugitivo escapou.")
+
 
 
 def init():
@@ -149,6 +158,7 @@ def init():
     for player_id_event in _receive_events():
         player_id = player_id_event.player_id
     if player_id is None:
+        server_socket.close();
         exit("Was expecting my player ID. Didn't get my player ID. :(")
 
     return player_id
@@ -159,6 +169,7 @@ def wait_for_fugitive_ready():
     for fugitiveready_event in _receive_events():
         fugitive_ready = fugitiveready_event.fugitive_ready
     if not fugitive_ready:
+        server_socket.close();
         exit("Was expecting a FUGITIVEREADY. Didn't get a FUGITIVEREADY. :(")
 
 def wait_for_init():
@@ -167,6 +178,7 @@ def wait_for_init():
     for init_event in _receive_events():
         init = init_event.init
     if not init:
+        server_socket.close();
         exit("Was expecting a INIT message. Didn't get a INIT message. :(")
 
     server_socket.setblocking(False)
