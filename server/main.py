@@ -1,6 +1,3 @@
-"""A small program that serves messages from
-a text file.
-"""
 import socket
 from sys import argv
 from time import sleep
