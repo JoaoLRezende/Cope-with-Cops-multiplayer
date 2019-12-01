@@ -23,7 +23,7 @@ def _get_port_num():
         """If this argument is a string of digits, then
         it's probably the port number. ¯\_(ツ)_/¯
         """
-        if argument[0].isdecimal() and len(argument) == 4:
+        if argument.isdecimal() and int(argument) >= 1024:
             return int(argument)
 
 
@@ -146,7 +146,6 @@ def _receive_events():
 def init():
     global server_socket
     server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    print("Atempting to connect to ",_get_ip_num()," on port ", _get_port_num)
     server_socket.connect((_get_ip_num(), _get_port_num()))
 
     player_id = None
