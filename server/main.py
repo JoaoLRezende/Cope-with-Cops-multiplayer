@@ -125,7 +125,6 @@ def main():
 
         if latest_MV_messages[1]:
             cop.send_message(latest_MV_messages[1])
-            print(int((latest_MV_messages[1].partition(" ")[2]).partition(" ")[0]))
             latest_height[1] = int((latest_MV_messages[1].partition(" ")[2]).partition(" ")[0])
             if int((latest_MV_messages[1].partition(" ")[2]).partition(" ")[0]) > highest_latitude:
                 highest_latitude = int((latest_MV_messages[1].partition(" ")[2]).partition(" ")[0])
@@ -148,7 +147,6 @@ def main():
 
         if latest_MV_messages[0]: 
             fugitive.send_message(latest_MV_messages[0])
-            print(int((latest_MV_messages[0].partition(" ")[2]).partition(" ")[0]))
             latest_height[0] = int((latest_MV_messages[0].partition(" ")[2]).partition(" ")[0])
             if int((latest_MV_messages[0].partition(" ")[2]).partition(" ")[0]) > highest_latitude:
                 highest_latitude = int((latest_MV_messages[0].partition(" ")[2]).partition(" ")[0]) 
