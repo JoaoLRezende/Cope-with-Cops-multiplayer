@@ -105,11 +105,18 @@ def main():
                         if client.id == 1:
                             cop.send_message("DED")
                             game_is_running = False
+                            for client in (cop, fugitive):
+                                client.socket.close()
+                            listening_socket.close
+                            exit()
                             exit()
                         else:
                             fugitive.send_message("DED")
-                        game_is_running = False
-                        exit()
+                            game_is_running = False
+                            for client in (cop, fugitive):
+                                client.socket.close()
+                            listening_socket.close
+                            exit()
                         
                 elif message[:7] == "CAPTURE":
                     fugitive.send_message("CAPTURED")
@@ -161,4 +168,6 @@ def main():
         if distance_between_players > difficulty * 333:
             for client in (cop, fugitive):
                 client.send_message("FREEDOM")
-                exit()
+                client.socket.close()
+            listening_socket.close
+            exit()
